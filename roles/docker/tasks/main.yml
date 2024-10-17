@@ -1,0 +1,41 @@
+---
+# tasks file for docker
+- name: 1. Install docker required system packages
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - software-properties-common
+    state: latest
+    update_cache: true
+
+- name: 2. Add Docker GPG apt key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: 3. Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu jammy stable
+    state: present
+
+- name: 4. Update apt and install docker
+  apt:
+    name: 
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: latest
+    update_cache: true
+
+- name: 5. Make sure compose service is up
+  docker_compose:
+    project_src: /path/to/your/compose/project
+    files:
+      - {{ name }}_compose.yml
+    state: present
