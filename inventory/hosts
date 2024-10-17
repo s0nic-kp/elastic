@@ -1,6 +1,6 @@
 [docker]
-docker-1    ansible_ssh_host=10.0.216.161
-[docker-2    ansible_ssh_host=10.0.216.36]
+docker-1    ansible_ssh_host=10.0.216.151
+docker-2    ansible_ssh_host=10.0.216.36
 
 [all:vars]
 ansible_connection=ssh
