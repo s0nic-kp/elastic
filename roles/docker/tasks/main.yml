@@ -1,78 +1,44 @@
 ---
 # tasks file for docker
-# - name: 1. Install docker required system packages
-#   apt:
-#     pkg:
-#       - apt-transport-https
-#       - ca-certificates
-#       - curl
-#       - gnupg
-#       - lsb-release
-#       - software-properties-common
-#     state: latest
-#     update_cache: true
+- name: 1. Install docker required system packages
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - software-properties-common
+    state: latest
+    update_cache: true
 
-# - name: 2. Add Docker GPG apt key
-#   apt_key:
-#     url: https://download.docker.com/linux/ubuntu/gpg
-#     state: present
+- name: 2. Add Docker GPG apt key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
 
-# - name: 3. Add Docker Repository
-#   apt_repository:
-#     repo: deb https://download.docker.com/linux/ubuntu jammy stable
-#     state: present
+- name: 3. Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu jammy stable
+    state: present
 
-# - name: 4. Update apt and install docker
-#   apt:
-#     name: 
-#       - docker-ce
-#       - docker-ce-cli
-#       - containerd.io
-#       - docker-buildx-plugin
-#       - docker-compose-plugin
-#     state: latest
-#     update_cache: true
+- name: 4. Update apt and install docker
+  apt:
+    name: 
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: latest
+    update_cache: true
 
-#- name: 5. Install phyton package manager
-#  apt:
-#    name: python3-pip
-#
-#- name: 6. Install python sdk
-#  pip:
-#    name:
-#      - docker
-#      - docker-cpmpose
-#
-#- name: 7. Make sure compose service is up
-#  community.docker.docker_compose_v2_pull:
-#    project_src: /home/sonic/elasticsearch/playbooks/docker
-#    files:
-#      - docker_compose.yml
-#    state: present
-
-# - name: 7. Make sure compose service is up
-#   community.docker.docker_compose_v2:
-#     project_src: /tmp
-#     files: docker-compose.yml
-
-# - nameme: Run container
-#   shell:
-#     cmd: "docker-compose -f docker-compose.yml up -d"
-#     chdir: /home/sonic/elasticsearch/roles/docker/files
-
-# - name: copy Docker Compose files
-#   copy:
-#     src: files/{{ item }}
-#     dest: /tmp/{{ item }}
-
-- name: copy Docker Compose files
+- name: 5. Copy Docker Compose files
   copy:
     src: files/docker-compose.yml
-    dest: /tmp/docker-compose.xml
+    dest: /tmp/docker-compose.yml
 
-# use files parameter to use docker-compose.yml files
-# mind the _v2 suffix
-- name: deploy Docker Compose stack
+- name: 6. Deploy Docker Compose stack
   community.docker.docker_compose_v2:
     project_src: /tmp
     files: docker-compose.yml
